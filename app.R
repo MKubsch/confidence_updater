@@ -24,15 +24,25 @@ ui <- fluidPage(
             
             radioButtons("Conf_init",
                         "How sure are you about your hypothesis? Choose the option that best fits what you already know!",
-                        c("rather sure that it is correct" = 0.75,
+                        c("absolutely certain that it is correct" = 1,
+                          "really sure that it is correct" = 0.9,
+                          "sure that it is correct" = 0.75,
+                          "rather sure that it is correct" = 0.6,
                           "No idea!" = 0.5,
-                          "rather sure that it is incorrect" = 0.25),
+                          "rather sure that it is incorrect" = 0.4,
+                          "sure that it is incorrect" = 0.25,
+                          "really sure that it is incorrect" = 0.1,
+                          "absolutely certain that it is incorrect" = 0),
                         selected = character(0)),
         
             radioButtons("Updating_factor", "How compatible is the evidence with your hypothesis vs. an alternative hypothesis? Choose the best fitting option!" ,
-                        c("Data strongly favors my hypothesis" = 2,
+                        c("Data strongly favors my hypothesis" = 20,
+                          "Data favors my hypothesis" = 6,
+                          "Data somewhat favors my hypothesis" = 3,
                           "Evidence not conclusive" = 1,
-                          "Data strongly favors an alternative hypothesis" = 0.5), selected = character(0))
+                          "Data somewhat favors an alternative hypothesis" = 1/3,
+                          "Data favors an alternative hypothesis" = 1/6,
+                          "Data strongly favors an alternative hypothesis" = 1/20), selected = character(0))
             
         ),
         # Show a plot of the generated distribution
@@ -66,8 +76,12 @@ server <- function(input, output) {
     
     output$confidence <- renderText({
         c <- as.numeric(input$Updating_factor)*as.numeric(input$Conf_init) / (as.numeric(input$Updating_factor)*as.numeric(input$Conf_init)+1-as.numeric(input$Conf_init))
-        d <- ifelse(c > 0.6,"can be rather sure that it is correct.",ifelse(c > 0.4,"need more evidence and remain undecided about it.","can be rather sure that it is incorrect."))
-        paste("I",d)
+        d <- ifelse(c > 0.9,"can be very sure that it is correct.", ifelse(c > 0.8,"can be sure that it is correct.",
+                    ifelse(c > 0.6,"can be rather sure that it is correct.",
+                    ifelse(c > 0.4,"need more evidence and remain undecided about it.",
+                           ifelse(c > 0.2, "can be rather sure that it is incorrect",
+                                  ifelse(c > 0.1, "can be sure that it is incorrect.", "can be very sure that it is incorrect." ))))))
+        paste("I",d,"(", round(c*100,2),"% confidence)")
     })
 }
 
