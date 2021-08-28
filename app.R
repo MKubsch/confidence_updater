@@ -42,7 +42,8 @@ ui <- fluidPage(
                           "Evidence not conclusive" = 1,
                           "Data somewhat favors an alternative hypothesis" = 1/3,
                           "Data favors an alternative hypothesis" = 1/6,
-                          "Data strongly favors an alternative hypothesis" = 1/20), selected = character(0))
+                          "Data strongly favors an alternative hypothesis" = 1/20), selected = character(0)),
+            checkboxInput("NumericOutput", "Show numeric confidence level.")
             
         ),
         # Show a plot of the generated distribution
@@ -81,7 +82,12 @@ server <- function(input, output) {
                     ifelse(c > 0.4,"need more evidence and remain undecided about it.",
                            ifelse(c > 0.2, "can be rather sure that it is incorrect",
                                   ifelse(c > 0.1, "can be sure that it is incorrect.", "can be very sure that it is incorrect." ))))))
-        paste("I",d,"(", round(c*100,2),"% confidence)")
+        if(input$NumericOutput == 1){
+            paste("I",d,"(", round(c*100,2),"% confidence)")
+        } else{
+            paste("I",d)
+            } 
+        
     })
 }
 
