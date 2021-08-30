@@ -48,9 +48,12 @@ ui <- fluidPage(theme = shinytheme("cerulean"),
                             ),
                             tabPanel("Estimated confidence",
                                      value = "estimate",
-                                     h4("After considering the evidence for my hypothesis"),
-                                     em(h4(textOutput("Hypothesis", container = span))),
-                                     h4(textOutput("confidence", container = span))
+                                     p(),
+                                     tags$b("After considering the evidence for my hypothesis:"),
+                                     p(),
+                                     em(textOutput("Hypothesis", container = span)),
+                                     p(),
+                                     h3(textOutput("confidence", container = span))
                                      
                             )
                 ),
@@ -70,6 +73,11 @@ server <- function(input, output, session) {
         updateTabsetPanel(session, 
                           "maintabset",
                           selected = "estimate")
+    })
+    
+    output$Hypothesis <- renderText({
+        paste(input$Hypothesis)
+        
     })
     
     observeEvent(input$button, {
