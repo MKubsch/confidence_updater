@@ -8,9 +8,10 @@
 #
 
 library(shiny)
+library(shinythemes)
 
 # Define UI for application that draws a histogram
-ui <- fluidPage(
+ui <- fluidPage(theme = shinytheme("united"),
 
     # Application title
     titlePanel("Confidence Updater"),
