@@ -33,13 +33,13 @@ ui <- fluidPage(theme = shinytheme("cerulean"),
                                                   width = "100%"),
                                      
                                      radioButtons("Updating_factor", "How compatible is the evidence with your hypothesis relative to an alternative hypothesis? Choose the best fitting option!" ,
-                                                  c("Data strongly favors my hypothesis" = 20,
-                                                    "Data favors my hypothesis" = 6,
-                                                    "Data somewhat favors my hypothesis" = 3,
-                                                    "Evidence not conclusive" = 1,
-                                                    "Data somewhat favors an alternative hypothesis" = 1/3,
-                                                    "Data favors an alternative hypothesis" = 1/6,
-                                                    "Data strongly favors an alternative hypothesis" = 1/20), 
+                                                  c("the evidence strongly favors my hypothesis" = 20,
+                                                    "the evidence favors my hypothesis" = 6,
+                                                    "the evidence somewhat favors my hypothesis" = 3,
+                                                    "the evidence not conclusive" = 1,
+                                                    "the evidence somewhat favors an alternative hypothesis" = 1/3,
+                                                    "the evidence favors an alternative hypothesis" = 1/6,
+                                                    "the evidence strongly favors an alternative hypothesis" = 1/20), 
                                                   selected = character(0),
                                                   width = "100%"),
                                      hr(),
@@ -59,7 +59,8 @@ ui <- fluidPage(theme = shinytheme("cerulean"),
                 ),
                 p(),
                 hr(),
-                p("This Shiny app is created by Marcus Kubsch with contributions from Joshua Rosenberg, E.J. Wagenmakers, and Mine Dogucu. 
+                p("This Shiny app uses a form of Bayes Theorem (https://en.wikipedia.org/wiki/Bayes%27_theorem) to update hypotheses in light of evidence in a principled yet flexible way. 
+                It was created by Marcus Kubsch with contributions from Joshua Rosenberg, E.J. Wagenmakers, and Mine Dogucu. 
                 A pre-print related to this app is available at https://osf.io/aznyq/.
                 It was inspired in part by Warren's (2018) work (https://doi.org/10.1119/1.5012750).
                   If you have any questions, you may contact Marcus Kubsch (kubsch@leibniz-ipn.de). 
