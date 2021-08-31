@@ -85,15 +85,16 @@ server <- function(input, output, session) {
         
         output$confidence <- renderText({
             c <- as.numeric(input$Updating_factor)*as.numeric(input$Conf_init) / (as.numeric(input$Updating_factor)*as.numeric(input$Conf_init)+1-as.numeric(input$Conf_init))
-            d <- ifelse(c > 0.9,"can be very sure that it is correct.", ifelse(c > 0.8,"can be sure that it is correct.",
-                                                                               ifelse(c > 0.6,"can be rather sure that it is correct.",
-                                                                                      ifelse(c > 0.4,"need more evidence and remain undecided about it.",
+            d <- ifelse(c > 0.9,"can be very sure that it is correct.", ifelse(c > 0.8,"can be sure that it is correct",
+                                                                               ifelse(c > 0.6,"can be rather sure that it is correct",
+                                                                                      ifelse(c > 0.4,"need more evidence and remain undecided about it",
                                                                                              ifelse(c > 0.2, "can be rather sure that it is incorrect",
-                                                                                                    ifelse(c > 0.1, "can be sure that it is incorrect.", "can be very sure that it is incorrect." ))))))
+                                                                                                    ifelse(c > 0.1, "can be sure that it is incorrect", 
+                                                                                                           "can be very sure that it is incorrect" ))))))
             if(input$NumericOutput == 1){
-                paste("I",d,"(", round(c*100,2),"% confidence)")
+                paste0("I",d,"(", round(c*100,2),"% confidence)")
             } else{
-                paste("I",d)
+                paste0("I",d)
             } 
             
         })
