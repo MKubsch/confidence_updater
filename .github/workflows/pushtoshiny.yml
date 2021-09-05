@@ -6,5 +6,5 @@ name: pushtoshiny
 on: [push]
 
 jobs:
-  Rscript -e "rsconnect::setAccountInfo(name='kubsch', token=${{'EDD281F03C9A067BF4C7F4DF216827BB'}}, secret=${{'QyqKFd6RyFDHQ9YvrO8QkbK7yl7VTwd16/Uwa1de'}})"
+  Rscript -e "rsconnect::setAccountInfo(name='kubsch', token='EDD281F03C9A067BF4C7F4DF216827BB', secret='QyqKFd6RyFDHQ9YvrO8QkbK7yl7VTwd16/Uwa1de')"
   Rscript -e "rsconnect::deployApp(appName = 'Confidence_Updater')" 
