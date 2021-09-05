@@ -6,5 +6,16 @@ name: pushtoshiny
 on: [push]
 
 jobs:
-  Rscript -e "rsconnect::setAccountInfo(name='kubsch', token='EDD281F03C9A067BF4C7F4DF216827BB', secret='QyqKFd6RyFDHQ9YvrO8QkbK7yl7VTwd16/Uwa1de')"
-  Rscript -e "rsconnect::deployApp(appName = 'Confidence_Updater')" 
+  deploy-shiny:
+    runs-on: macOS-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: r-lib/actions/setup-r@master
+      - name: Install shiny
+        run: |
+          install.packages(c("shiny", "rsconnect"), type = "binary")
+        shell: Rscript {0}
+    - name: Push to shiny.io
+        run: |
+        Rscript -e "rsconnect::setAccountInfo(name='kubsch', token='EDD281F03C9A067BF4C7F4DF216827BB', secret='QyqKFd6RyFDHQ9YvrO8QkbK7yl7VTwd16/Uwa1de')"
+        Rscript -e "rsconnect::deployApp(appName = 'Confidence_Updater')" 
