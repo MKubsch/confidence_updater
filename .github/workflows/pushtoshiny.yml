@@ -3,11 +3,7 @@
 name: pushtoshiny
 
 # Controls when the workflow will run
-on:
-  # Triggers the workflow on push or pull request events but only for the main branch
-  push:
-    branches: [ main ]
-  on: [push, pull_request]
+on: [push]
 
 jobs:
   Rscript -e "rsconnect::setAccountInfo(name='kubsch', token=${{secrets.EDD281F03C9A067BF4C7F4DF216827BB}}, secret=${{secrets.QyqKFd6RyFDHQ9YvrO8QkbK7yl7VTwd16/Uwa1de}})"
