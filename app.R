@@ -92,7 +92,7 @@ server <- function(input, output, session) {
                                                                                                     ifelse(c > 0.1, "can be sure that it is incorrect", 
                                                                                                            "can be very sure that it is incorrect" ))))))
             if(input$NumericOutput == 1){
-                paste0("I ",d,"(", round(c*100,2),"% confidence)")
+                paste0("I ",d," (", round(c*100,2),"% confidence)")
             } else{
                 paste0("I ",d)
             } 
