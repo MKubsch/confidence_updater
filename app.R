@@ -1,6 +1,7 @@
 library(shiny)
 library(shinythemes)
 
+
 # Define UI for application that draws a histogram
 ui <- fluidPage(theme = shinytheme("cerulean"),
                 
@@ -16,23 +17,16 @@ ui <- fluidPage(theme = shinytheme("cerulean"),
                                      textInput(inputId = "Hypothesis",
                                                label = "What is your hypothesis?",
                                                value = "",
-                                               width = "100%"),
+                                               width = "400px"),
                                      
-                                     radioButtons("Conf_init",
-                                                  "How sure are you about your hypothesis? Choose the option that best fits what you already know!",
-                                                  c("absolutely certain that my hypothesis is correct" = 1,
-                                                    "very sure that my hypothesis is correct" = 0.9,
-                                                    "sure that my hypothesis is correct" = 0.75,
-                                                    "rather sure that my hypothesis is correct" = 0.6,
-                                                    "no idea!" = 0.5,
-                                                    "rather sure that my hypothesis is incorrect" = 0.4,
-                                                    "very that my hypothesis is incorrect" = 0.25,
-                                                    "really sure that my hypothesis is incorrect" = 0.1,
-                                                    "absolutely certain that my hypothesis is incorrect" = 0),
-                                                  selected = character(0),
-                                                  width = "100%"),
+                                     # Input for prior
+                                     sliderInput("Conf_init_num",
+                                                  "How sure are you that your hypothesis is true? Use the slider to select a percentage value that best fits with what you already know!",
+                                                  min = 0, max = 100, value = 50, ticks = F, pre = "%", width = "400px"),
                                      
-                                     radioButtons("Updating_factor", "How compatible is the evidence with your hypothesis relative to an alternative hypothesis? Choose the best fitting option!" ,
+                    
+                                     # input for bayes factor 
+                                     radioButtons("bayes_factor", "How compatible is the evidence with your hypothesis relative to an alternative hypothesis? Choose the best fitting option!" ,
                                                   c("the evidence strongly favors my hypothesis" = 20,
                                                     "the evidence favors my hypothesis" = 6,
                                                     "the evidence somewhat favors my hypothesis" = 3,
@@ -41,7 +35,7 @@ ui <- fluidPage(theme = shinytheme("cerulean"),
                                                     "the evidence favors an alternative hypothesis" = 1/6,
                                                     "the evidence strongly favors an alternative hypothesis" = 1/20), 
                                                   selected = character(0),
-                                                  width = "100%"),
+                                                  width = "400px"),
                                      hr(),
                                      checkboxInput("NumericOutput", "Show numeric confidence level."),
                                      actionButton("button", "Run!")
@@ -84,17 +78,20 @@ server <- function(input, output, session) {
     observeEvent(input$button, {
         
         output$confidence <- renderText({
-            c <- as.numeric(input$Updating_factor)*as.numeric(input$Conf_init) / (as.numeric(input$Updating_factor)*as.numeric(input$Conf_init)+1-as.numeric(input$Conf_init))
-            d <- ifelse(c >= 0.99,"can be nearly certain that it is correct.", ifelse(c >= 0.9,"can be very sure that it is correct",
-                                                                               ifelse(c >= 0.66,"can be rather sure that it is correct",
-                                                                                      ifelse(c >= 0.33,"need more evidence and remain undecided about it",
-                                                                                             ifelse(c > 0.1, "can be rather sure that it is incorrect",
-                                                                                                    ifelse(c >= 0.01, "can be very sure that it is incorrect", 
-                                                                                                           "can be nearly certain that it is incorrect" ))))))
+            prior <- input$Conf_init_num/100 #prior
+            bf <- as.numeric(input$bayes_factor) #bayes factor
+            posterior <- bf*prior / (bf*prior+1-prior) # calculate posterior
+            # select verbal confidence level statement bases on posterior
+            posterior_conf_level <- ifelse(posterior >= 0.99,"can be nearly certain that it is correct.", ifelse(posterior >= 0.9,"can be very sure that it is correct",
+                                                                                      ifelse(posterior >= 0.66,"can be rather sure that it is correct",
+                                                                                             ifelse(posterior >= 0.33,"need more evidence and remain undecided about it",
+                                                                                                    ifelse(posterior > 0.1, "can be rather sure that it is incorrect",
+                                                                                                           ifelse(posterior >= 0.01, "can be very sure that it is incorrect", 
+                                                                                                                  "can be nearly certain that it is incorrect" ))))))
             if(input$NumericOutput == 1){
-                paste0("I ",d," (", round(c*100,2),"% confidence)")
+                paste0("I ",posterior_conf_level ," (", round(posterior*100,2),"% confidence)")
             } else{
-                paste0("I ",d)
+                paste0("I ",posterior_conf_level )
             } 
             
         })
