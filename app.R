@@ -22,7 +22,7 @@ ui <- fluidPage(theme = shinytheme("cerulean"),
                                      # Input for prior
                                      sliderInput("Conf_init_num",
                                                   "How sure are you that your hypothesis is true? Use the slider to select a percentage value that best fits with what you already know!",
-                                                  min = 0, max = 100, value = 50, ticks = F, pre = "%", width = "400px"),
+                                                  min = 0, max = 100, value = 50, ticks = F, post = "%", width = "400px"),
                                      
                     
                                      # input for bayes factor 

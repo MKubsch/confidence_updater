@@ -1,0 +1,12 @@
+name: confidence_updater
+title: confidence_updater
+username:
+account: faast
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 4558104
+bundleId: 4980473
+url: https://faast.shinyapps.io/confidence_updater/
+when: 1630329026.15438
+asMultiple: FALSE
+asStatic: FALSE
