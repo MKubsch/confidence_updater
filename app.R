@@ -22,7 +22,7 @@ ui <- fluidPage(theme = shinytheme("cerulean"),
                                      # Input for prior
                                      sliderInput("Conf_init_num",
                                                   "How sure are you that your hypothesis is true? Use the slider to select a percentage value that best fits with what you already know!",
-                                                  min = 0, max = 100, value = 50, ticks = F, post = "%", width = "400px"),
+                                                  min = 0, max = 100, value = 50, ticks = F, pre = "%", width = "400px"),
                                      
                     
                                      # input for bayes factor 
@@ -55,10 +55,11 @@ ui <- fluidPage(theme = shinytheme("cerulean"),
                 hr(),
                 p("This Shiny app uses a form of Bayes Theorem (https://en.wikipedia.org/wiki/Bayes%27_theorem) to update hypotheses in light of evidence in a principled yet flexible way. 
                 It was created by Marcus Kubsch with contributions from Joshua Rosenberg, E.J. Wagenmakers, and Mine Dogucu. 
-                A pre-print related to this app is available at https://osf.io/aznyq/.
+                A publication related to this app is available here https://link.springer.com/article/10.1007/s11191-022-00341-3.
                 It was inspired in part by Warren's (2018) work (https://doi.org/10.1119/1.5012750).
                   If you have any questions, you may contact Marcus Kubsch (kubsch@leibniz-ipn.de). 
-                  The code for this app may be found at https://github.com/MKubsch/confidence_updater")
+                  The code for this app may be found at https://github.com/MKubsch/confidence_updater
+                This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License (http://creativecommons.org/licenses/by-sa/4.0/).")
 )
 
 # Define server logic required to draw a histogram
